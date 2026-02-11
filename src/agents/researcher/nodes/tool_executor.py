@@ -5,6 +5,13 @@ from src.agents.researcher.tools import tools_by_name
 
 def tool_executor_node(state: ResearchAgentState) -> ResearchAgentState:
     """
+    Executes the tool calls in the last message and returns the result.
+
+    Args:
+        state (ResearchAgentState): The state of the research agent.
+
+    Returns:
+        ResearchAgentState: The state of the research agent after executing the tool calls.
     """
     result = []
 
