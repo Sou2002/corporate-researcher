@@ -6,28 +6,21 @@ This module defines the core nodes for the scoping agent workflow.
 
 from typing import Literal
 
-from langsmith import Client
 from langgraph.graph import END
 from langgraph.types import Command
-from langchain.chat_models import init_chat_model
 from langchain_core.messages import (HumanMessage,
                                      AIMessage,
                                      get_buffer_string)
 
 from src.agents.utils import get_today_str
+from src.agents.services import model
 from src.agents.scoping_agent.states import (AgentState,
-                                        ClarifyWithUser,
-                                        ResearchQuestion)
+                                             ClarifyWithUser,
+                                             ResearchQuestion)
+from src.agents.prompts import (clarify_with_user_instructions,
+                                transform_messages_into_research_topic_prompt)
 
-
-# Load the prompt from prompt hub
-client = Client()
-clarify_with_user_instructions = client.pull_prompt("clarify_with_user_instructions")
-transform_messages_into_research_topic_prompt = client.pull_prompt("transform_messages_into_research_topic_prompt")
-
-# Initialize model
-model = init_chat_model(model="groq:openai/gpt-oss-20b", temperature=0.0)
-
+# ===== AGENT NODES =====
 
 def clarify_with_user(state: AgentState) -> Command[Literal["write_research_brief", "__end__"]]:
     """

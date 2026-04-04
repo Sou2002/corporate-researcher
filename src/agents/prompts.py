@@ -9,6 +9,8 @@ from langsmith import Client
 
 # Load the prompt from prompt hub
 client = Client()
+clarify_with_user_instructions = client.pull_prompt("clarify_with_user_instructions")
+transform_messages_into_research_topic_prompt = client.pull_prompt("transform_messages_into_research_topic_prompt")
 research_agent_prompt = client.pull_prompt("research_agent_prompt")
 summarize_webpage_prompt = client.pull_prompt("summarize_webpage_prompt")
 compress_research_system_prompt = client.pull_prompt("compress_research_system_prompt")
