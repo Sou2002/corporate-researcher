@@ -7,7 +7,7 @@ including web search and content summarization.
 
 from typing import Annotated, Literal
 
-from langchain.tools import tool, InjectedToolArg
+from langchain_core.tools import tool, InjectedToolArg
 from langchain_core.messages import HumanMessage
 
 from src.agents.utils import get_today_str
