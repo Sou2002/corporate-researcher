@@ -1,7 +1,7 @@
 """
-Nodes for the scoping agent.
+Nodes for the multi agent researcher.
 
-This module defines the core nodes for the scoping agent workflow. 
+This module defines the core nodes for the multi agent research workflow.
 """
 
 from typing import Literal
@@ -13,12 +13,13 @@ from langchain_core.messages import (HumanMessage,
                                      get_buffer_string)
 
 from src.agents.utils import get_today_str
-from src.agents.services import model
-from src.agents.scoping_agent.states import (AgentState,
-                                             ClarifyWithUser,
-                                             ResearchQuestion)
+from src.agents.services import model, writer_model
+from src.agents.corporate_researcher.states import (AgentState,
+                                                    ClarifyWithUser,
+                                                    ResearchQuestion)
 from src.agents.prompts import (clarify_with_user_instructions,
-                                transform_messages_into_research_topic_prompt)
+                                transform_messages_into_research_topic_prompt,
+                                final_report_generation_prompt)
 
 # ===== AGENT NODES =====
 
@@ -75,4 +76,29 @@ def write_research_brief(state: AgentState) -> AgentState:
     return {
         "research_brief": response.research_brief,
         "supervisor_messages": [HumanMessage(content=f"{response.research_brief}.")]
+    }
+
+
+def final_report_generation(state: AgentState) -> AgentState:
+    """
+    Final report generation node.
+    
+    Synthesizes all research findings into a comprehensive final report
+    """
+    
+    notes = state.get("notes", [])
+    
+    findings = "\n".join(notes)
+
+    final_report_prompt = final_report_generation_prompt.format(
+        research_brief=state.get("research_brief", ""),
+        findings=findings,
+        date=get_today_str()
+    )
+    
+    final_report = writer_model.invoke([HumanMessage(content=final_report_prompt)])
+    
+    return {
+        "final_report": final_report.content, 
+        "messages": ["Here is the final report: " + final_report.content],
     }
