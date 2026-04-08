@@ -1,6 +1,4 @@
-"""
-Utility functions for the agents.
-"""
+"""Utility functions for the agents."""
 
 from datetime import datetime
 
@@ -8,7 +6,5 @@ from datetime import datetime
 
 
 def get_today_str() -> str:
-    """
-    Get current date in a human-readable format.
-    """
+    """Get current date in a human-readable format."""
     return datetime.now().strftime("%a %b %-d, %Y")

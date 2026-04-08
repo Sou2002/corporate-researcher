@@ -1,12 +1,11 @@
-"""
-State Definitions and Pydantic Schemas for Multi Agent Research.
+"""State Definitions and Pydantic Schemas for Multi Agent Research.
 
 This defines the state objects and structured schemas used for
 the multi agent research workflow, including researcher state management and output schemas.
 """
 
 import operator
-from typing import Annotated, Optional, Sequence
+from typing import Annotated, Sequence
 
 from langchain_core.messages import BaseMessage
 from langgraph.graph import MessagesState
@@ -17,16 +16,13 @@ from pydantic import BaseModel, Field
 
 
 class AgentInputState(MessagesState):
-    """
-    Input state for the full agent - only contains messages from user input.
-    """
+    """Input state for the full agent - only contains messages from user input."""
 
     pass
 
 
 class AgentState(MessagesState):
-    """
-    Main state for the full multi-agent research system.
+    """Main state for the full multi-agent research system.
 
     Extends MessagesState with additional fields for research coordination.
     Note: Some fields are duplicated across different state classes for proper
@@ -34,7 +30,7 @@ class AgentState(MessagesState):
     """
 
     # Research brief generated from user conversation history
-    research_brief: Optional[str]
+    research_brief: str | None
     # Messages exchanged with the supervisor agent for coordination
     supervisor_messages: Annotated[Sequence[BaseMessage], add_messages]
     # Raw unprocessed research notes collected during the research phase
@@ -49,9 +45,7 @@ class AgentState(MessagesState):
 
 
 class ClarifyWithUser(BaseModel):
-    """
-    Schema for user clarification decision and questions.
-    """
+    """Schema for user clarification decision and questions."""
 
     need_clarification: bool = Field(
         description="Whether the user needs to be asked a clarifying question.",
@@ -65,9 +59,7 @@ class ClarifyWithUser(BaseModel):
 
 
 class ResearchQuestion(BaseModel):
-    """
-    Schema for structured research brief generation.
-    """
+    """Schema for structured research brief generation."""
 
     research_brief: str = Field(
         description="A research question that will be used to guide the research.",

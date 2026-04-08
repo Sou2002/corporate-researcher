@@ -1,5 +1,4 @@
-"""
-Nodes for the multi agent researcher.
+"""Nodes for the multi agent researcher.
 
 This module defines the core nodes for the multi agent research workflow.
 """
@@ -29,8 +28,7 @@ from src.agents.utils import get_today_str
 def clarify_with_user(
     state: AgentState,
 ) -> Command[Literal["write_research_brief", "__end__"]]:
-    """
-    Determine if the user's request contains sufficient information to proceed with research.
+    """Determine if the user's request contains sufficient information to proceed with research.
 
     Uses structured output to make deterministic decisions and avoid hallucination.
     Routes to either research brief generation or ends with a clarification question.
@@ -63,8 +61,7 @@ def clarify_with_user(
 
 
 def write_research_brief(state: AgentState) -> AgentState:
-    """
-    Transform the conversation history into a comprehensive research brief.
+    """Transform the conversation history into a comprehensive research brief.
 
     Uses structured output to ensure the brief follows the required format
     and contains all necessary details for effective research.
@@ -92,12 +89,10 @@ def write_research_brief(state: AgentState) -> AgentState:
 
 
 def final_report_generation(state: AgentState) -> AgentState:
-    """
-    Final report generation node.
+    """Generate the final report.
 
-    Synthesizes all research findings into a comprehensive final report
+    Synthesizes all research findings into a comprehensive final report.
     """
-
     notes = state.get("notes", [])
 
     findings = "\n".join(notes)

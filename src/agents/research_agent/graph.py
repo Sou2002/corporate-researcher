@@ -1,5 +1,4 @@
-"""
-Graph definition for the research agent.
+"""Graph definition for the research agent.
 
 This module defines the state graph for the research agent,
 including the main workflow and node connections.

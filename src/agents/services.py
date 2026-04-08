@@ -1,3 +1,10 @@
+"""This module initializes the language models and web search client used by the agents.
+
+It sets up the models with specific parameters for context length, temperature, 
+and other generation settings. The web search client is also initialized to 
+allow agents to perform web searches when needed.
+"""
+
 from langchain.chat_models import init_chat_model
 from tavily import TavilyClient
 

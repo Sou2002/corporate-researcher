@@ -1,5 +1,4 @@
-"""
-Research Agent Nodes implementation.
+"""Research Agent Nodes implementation.
 
 This module defines the core nodes for the research agent workflow,
 including the logic for clarifying user requests and transforming messages
@@ -38,8 +37,7 @@ model_with_tools = model.bind_tools(tools)
 
 
 def llm_call(state: ResearcherState):
-    """
-    Analyze current state and decide on next actions.
+    """Analyze current state and decide on next actions.
 
     The model analyzes the current conversation state and decides whether to:
     1. Call search tools to gather more information
@@ -62,8 +60,7 @@ def llm_call(state: ResearcherState):
 
 
 def tool_node(state: ResearcherState):
-    """
-    Execute all tool calls from the previous LLM response.
+    """Execute all tool calls from the previous LLM response.
 
     Executes all tool calls from the previous LLM responses.
     Returns updated state with tool execution results.
@@ -93,7 +90,6 @@ def compress_research(state: ResearcherState) -> dict:
     Takes all the research messages and tool outputs and creates
     a compressed summary suitable for the supervisor's decision-making.
     """
-
     system_message = compress_research_system_prompt.format(date=get_today_str())
     messages = [SystemMessage(content=system_message)] + [
         HumanMessage(

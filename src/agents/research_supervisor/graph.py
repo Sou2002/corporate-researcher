@@ -1,5 +1,4 @@
-"""
-Multi-agent supervisor for coordinating research across multiple specialized agents.
+"""Multi-agent supervisor for coordinating research across multiple specialized agents.
 
 This module implements a supervisor pattern where:
 1. A supervisor agent coordinates research activities and delegates tasks

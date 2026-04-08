@@ -1,5 +1,4 @@
-"""
-Node Definitions for Multi-Agent Research Supervisor
+"""Node Definitions for Multi-Agent Research Supervisor.
 
 This module defines the nodes used for the multi-agent
 research supervisor workflow.
@@ -16,6 +15,7 @@ from langchain_core.messages import (
 )
 from langgraph.graph import END
 from langgraph.types import Command
+from logger import get_logger
 
 from src.agents.prompts import lead_researcher_prompt
 from src.agents.research_agent.graph import researcher_agent
@@ -27,6 +27,9 @@ from src.agents.research_supervisor.tools import (
 )
 from src.agents.services import supervisor_model
 from src.agents.utils import get_today_str
+
+# Initialize logger
+logger = get_logger(__name__)
 
 
 def get_notes_from_tool_calls(messages: list[AnyMessage]) -> list[str]:
@@ -105,8 +108,7 @@ def supervisor(state: SupervisorState) -> Command[Literal["supervisor_tools"]]:
 def supervisor_tools(
     state: SupervisorState,
 ) -> Command[Literal["supervisor", "__end__"]]:
-    """
-    Execute supervisor decisions - either conduct research or end the process.
+    """Execute supervisor decisions - either conduct research or end the process.
 
     Handles:
     - Executing think_tool calls for strategic reflection
@@ -209,7 +211,7 @@ def supervisor_tools(
                 ]
 
         except Exception as e:
-            print(f"Error in supervisor tools: {e}")
+            logger.warn(f"Error in supervisor tools: {e}")
             should_end = True
             next_step = END
 

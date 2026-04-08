@@ -1,5 +1,4 @@
-"""
-Research Tools for Research Agent.
+"""Research Tools for Research Agent.
 
 This module defines the tools used by the research agent,
 including web search and content summarization.
@@ -10,10 +9,14 @@ from typing import Annotated, Literal
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import InjectedToolArg, tool
 
+from src.agents.logger import get_logger
 from src.agents.prompts import summarize_webpage_prompt
 from src.agents.research_agent.states import Summary
 from src.agents.services import summarization_model, web_search_client
 from src.agents.utils import get_today_str
+
+# Initialize logger
+logger = get_logger(__name__)
 
 # ===== SEARCH FUNCTIONS =====
 
@@ -24,8 +27,7 @@ def tavily_search_multiple(
     topic: Literal["general", "news", "finance"] = "general",
     include_raw_content: bool = True,
 ) -> list[dict]:
-    """
-    Perform search using Tavily API for multiple queries.
+    """Perform search using Tavily API for multiple queries.
 
     Args:
         search_queries: List of search queries to execute
@@ -36,7 +38,6 @@ def tavily_search_multiple(
     Returns:
         List of search result dictionaries
     """
-
     # Execute searches sequentially. Note: yon can use AsyncTavilyClient to parallelize this step.
     search_docs = []
     for query in search_queries:
@@ -52,8 +53,7 @@ def tavily_search_multiple(
 
 
 def summarize_webpage_content(webpage_content: str) -> str:
-    """
-    Summarize webpage content using the configured summarization model.
+    """Summarize webpage content using the configured summarization model.
 
     Args:
         webpage_content: Raw webpage content to summarize
@@ -85,7 +85,7 @@ def summarize_webpage_content(webpage_content: str) -> str:
         return formatted_summary
 
     except Exception as e:
-        print(f"Failed to summarize webpage: {str(e)}")
+        logger.warn(f"Failed to summarize webpage: {str(e)}")
         return (
             webpage_content[:1000] + "..."
             if len(webpage_content) > 1000
@@ -94,8 +94,7 @@ def summarize_webpage_content(webpage_content: str) -> str:
 
 
 def deduplicate_search_results(search_results: list[dict]) -> dict:
-    """
-    Deduplicate search results by URL to avoid processing duplicate content.
+    """Deduplicate search results by URL to avoid processing duplicate content.
 
     Args:
         search_results: List of search result dictionaries
@@ -115,8 +114,7 @@ def deduplicate_search_results(search_results: list[dict]) -> dict:
 
 
 def process_search_results(unique_results: dict) -> dict:
-    """
-    Process search results by summarizing content where available.
+    """Process search results by summarizing content where available.
 
     Args:
         unique_results: Dictionary of unique search results
@@ -140,8 +138,7 @@ def process_search_results(unique_results: dict) -> dict:
 
 
 def format_search_output(summarized_results: dict) -> str:
-    """
-    Format search results into a well-structured string output.
+    """Format search results into a well-structured string output.
 
     Args:
         summarized_results: Dictionary of processed search results
@@ -174,8 +171,7 @@ def tavily_search(
         Literal["general", "news", "finance"], InjectedToolArg
     ] = "general",
 ) -> str:
-    """
-    Fetch results from Tavily search API with content summarization.
+    """Fetch results from Tavily search API with content summarization.
 
     Args:
         query: A single search query to execute
@@ -205,8 +201,7 @@ def tavily_search(
 
 @tool(parse_docstring=True)
 def think_tool(reflection: str) -> str:
-    """
-    Tool for strategic reflection on research progress and decision-making.
+    """Tool for strategic reflection on research progress and decision-making.
 
     Use this tool after each search to analyze results and plan next steps systematically.
     This creates a deliberate pause in the research workflow for quality decision-making.

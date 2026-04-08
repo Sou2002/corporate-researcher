@@ -1,5 +1,4 @@
-"""
-Graph definition for the main corporate researcher agent.
+"""Graph definition for the main corporate researcher agent.
 
 This module defines the state graph for the full multi agent researcher,
 including the main workflow and node connections.
