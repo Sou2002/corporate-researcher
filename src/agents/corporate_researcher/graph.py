@@ -6,6 +6,7 @@ including the main workflow and node connections.
 """
 
 from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import InMemorySaver
 
 from src.agents.corporate_researcher.states import AgentInputState, AgentState
 from src.agents.corporate_researcher.nodes import (clarify_with_user,
@@ -31,4 +32,4 @@ corporate_researcher_builder.add_edge("supervisor_subgraph", "final_report_gener
 corporate_researcher_builder.add_edge("final_report_generation", END)
 
 # Compile the workflow
-corporate_researcher_agent = corporate_researcher_builder.compile()
+corporate_researcher_agent = corporate_researcher_builder.compile(checkpointer=InMemorySaver())
