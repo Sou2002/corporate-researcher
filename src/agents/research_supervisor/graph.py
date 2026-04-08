@@ -10,10 +10,10 @@ The supervisor uses parallel research execution to improve efficiency while
 maintaining isolated context windows for each research topic.
 """
 
-from langgraph.graph import StateGraph, START
+from langgraph.graph import START, StateGraph
 
-from src.agents.research_supervisor.states import SupervisorState
 from src.agents.research_supervisor.nodes import supervisor, supervisor_tools
+from src.agents.research_supervisor.states import SupervisorState
 
 # ===== GRAPH CONSTRUCTION =====
 

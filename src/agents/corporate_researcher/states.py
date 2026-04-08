@@ -6,20 +6,23 @@ the multi agent research workflow, including researcher state management and out
 """
 
 import operator
-from typing import Optional, Annotated, Sequence
+from typing import Annotated, Optional, Sequence
 
-from pydantic import BaseModel, Field
 from langchain_core.messages import BaseMessage
 from langgraph.graph import MessagesState
 from langgraph.graph.message import add_messages
+from pydantic import BaseModel, Field
 
 # ===== STATE DEFINITIONS =====
+
 
 class AgentInputState(MessagesState):
     """
     Input state for the full agent - only contains messages from user input.
     """
+
     pass
+
 
 class AgentState(MessagesState):
     """
@@ -44,6 +47,7 @@ class AgentState(MessagesState):
 
 # ===== STRUCTURED OUTPUT SCHEMAS =====
 
+
 class ClarifyWithUser(BaseModel):
     """
     Schema for user clarification decision and questions.
@@ -58,6 +62,7 @@ class ClarifyWithUser(BaseModel):
     verification: str = Field(
         description="Verify message that we will start research after the user has provided the necessary information.",
     )
+
 
 class ResearchQuestion(BaseModel):
     """

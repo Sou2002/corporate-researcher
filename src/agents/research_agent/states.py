@@ -6,44 +6,53 @@ the research agent workflow, including researcher state management and output sc
 """
 
 import operator
-from typing import TypedDict, Annotated, Sequence
+from typing import Annotated, Sequence, TypedDict
 
-from pydantic import BaseModel, Field
 from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
+from pydantic import BaseModel, Field
 
 # ===== STATE DEFINITIONS =====
+
 
 class ResearcherState(TypedDict):
     """
     State for the research agent containing message history and research metadata.
-    
+
     This state tracks the researcher's conversation, iteration count for limiting
     tool calls, the research topic being investigated, compressed findings,
     and raw research notes for detailed analysis.
     """
+
     researcher_messages: Annotated[Sequence[AnyMessage], add_messages]
     tool_call_iterations: int
     research_topic: str
     compressed_research: str
     raw_notes: Annotated[list[str], operator.add]
 
+
 class ResearcherOutputState(TypedDict):
     """
     Output state for the research agent containing final research results.
-    
+
     This represents the final output of the research process with compressed
     research findings and all raw notes from the research process.
     """
+
     compressed_research: str
     raw_notes: Annotated[list[str], operator.add]
     researcher_messages: Annotated[Sequence[AnyMessage], add_messages]
 
+
 # ===== STRUCTURED OUTPUT SCHEMAS =====
+
 
 class Summary(BaseModel):
     """
     Schema for webpage content summarization.
     """
+
     summary: str = Field(description="Concise summary of the webpage content")
-    key_excerpts: str = Field(description="Important quotes and excerpts from the content")
+    key_excerpts: str = Field(
+        description="Important quotes and excerpts from the content"
+    )
