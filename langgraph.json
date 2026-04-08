@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "corporate-researcher": "./src/agents/corporate_researcher/graph.py:corporate_researcher_agent"
+  },
+  "env": ".env",
+  "image_distro": "wolfi"
+}
