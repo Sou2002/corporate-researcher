@@ -1,6 +1,6 @@
 [project]
 name = "corporate-researcher"
-version = "1.0.0"
+version = "1.0.1"
 description = ""
 authors = [
     { name = "Sourav Banerjee", email = "souravbnjee07@gmail.com" },
