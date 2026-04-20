@@ -36,5 +36,5 @@ corporate_researcher_builder.add_edge("final_report_generation", END)
 
 # Compile the workflow
 corporate_researcher_agent = corporate_researcher_builder.compile(
-    checkpointer=InMemorySaver()
+    # checkpointer=InMemorySaver()
 )

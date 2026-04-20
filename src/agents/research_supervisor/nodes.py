@@ -15,8 +15,8 @@ from langchain_core.messages import (
 )
 from langgraph.graph import END
 from langgraph.types import Command
-from logger import get_logger
 
+from src.agents.logger import get_logger
 from src.agents.prompts import lead_researcher_prompt
 from src.agents.research_agent.graph import researcher_agent
 from src.agents.research_supervisor.states import SupervisorState
